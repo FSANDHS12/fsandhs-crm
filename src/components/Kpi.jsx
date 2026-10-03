@@ -1,0 +1,1 @@
+export default function Kpi({label,value,note,icon:Icon}) { return <div className="card kpi"><div><span>{label}</span><b>{value}</b><small>{note}</small></div>{Icon && <div className="kicon"><Icon size={20}/></div>}</div>; }
