@@ -121,9 +121,33 @@ export default function Customers(){
       const created=add("customers",data);
       if(form.sourceLeadId){
         update("leads",form.sourceLeadId,{
+          stage:"Payment",
           convertedToCustomer:true,
           customerId:created.id,
           convertedAt:new Date().toISOString()
+        });
+      }
+      if(data.paymentStatus==="Paid"){
+        add("customerPayments",{
+          businessUnit:unit,
+          customerId:created.id,
+          date:data.startDate,
+          amount:Number(data.amount||0),
+          mode:"Initial Payment",
+          reference:"",
+          status:"Paid",
+          notes:"Customer conversion payment"
+        });
+        add("transactions",{
+          businessUnit:unit,
+          customerId:created.id,
+          sourceLeadId:form.sourceLeadId||"",
+          date:data.startDate,
+          type:"Income",
+          category:unit==="recruitment"?"Placement / Client Payment":"Customer Payment",
+          description:`${data.business} - ${data.plan||"Service"}`,
+          amount:Number(data.amount||0),
+          status:"Paid"
         });
       }
     }
@@ -158,10 +182,19 @@ export default function Customers(){
     update("customers",selected.id,{paymentStatus:paymentForm.status});
     if(paymentForm.status==="Paid"){
       add("transactions",{
-        businessUnit:unit,date:paymentForm.date,type:"Income",category:"Customer Payment",
+        businessUnit:unit,
+        customerId:selected.id,
+        sourceLeadId:selected.sourceLeadId||"",
+        date:paymentForm.date,
+        type:"Income",
+        category:"Customer Payment",
         description:`${selected.business} - ${selected.plan||"Service"}`,
-        amount:Number(paymentForm.amount||0),status:"Paid"
+        amount:Number(paymentForm.amount||0),
+        status:"Paid"
       });
+      if(selected.sourceLeadId){
+        update("leads",selected.sourceLeadId,{stage:"Payment",paymentStatus:"Paid"});
+      }
     }
     setPaymentOpen(false);
     setTick(x=>x+1);
