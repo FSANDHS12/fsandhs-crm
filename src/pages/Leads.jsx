@@ -6,6 +6,7 @@ import { useBusinessUnit } from "../components/BusinessUnitContext";
 import PageHead from "../components/PageHead";
 import Modal from "../components/Modal";
 import { canonicalStage } from "../lib/lifecycle";
+import { servicesFor } from "../lib/services";
 
 export default function Leads() {
   const {unit,config} = useBusinessUnit();
@@ -15,7 +16,8 @@ export default function Leads() {
   const [stage,setStage] = useState("All");
   const [open,setOpen] = useState(false);
   const [editing,setEditing] = useState(null);
-  const blank = {name:"",contact:"",phone:"",email:"",industry:"",source:config.sources[0],stage:config.pipeline[0],value:0,nextFollowUp:""};
+  const serviceOptions=servicesFor(unit);
+  const blank = {name:"",contact:"",phone:"",email:"",industry:"",service:serviceOptions[0]||"",source:config.sources[0],stage:config.pipeline[0],value:0,nextFollowUp:""};
   const [form,setForm] = useState(blank);
   const leads = list("leads",unit);
   const customers=list("customers",unit);
@@ -39,10 +41,10 @@ export default function Leads() {
   return <>
     <PageHead title={`${config.label} Leads`} desc={config.dashboardDesc} action={<button className="btn primary" onClick={()=>{setEditing(null);setForm(blank);setOpen(true)}}>+ Add Lead</button>}/>
     <div className="toolbar card"><Search size={17}/><input placeholder="Search leads..." value={q} onChange={e=>setQ(e.target.value)}/><select value={stage} onChange={e=>setStage(e.target.value)}><option>All</option>{config.pipeline.map(s=><option key={s}>{s}</option>)}</select><span>{rows.length} records</span></div>
-    <div className="card"><div className="table-wrap"><table><thead><tr><th>Name</th><th>Industry</th><th>Source</th><th>Stage</th><th>Value</th><th>Follow-up</th><th>Customer</th><th></th></tr></thead><tbody>
+    <div className="card"><div className="table-wrap"><table><thead><tr><th>Name</th><th>Service</th><th>Industry</th><th>Source</th><th>Stage</th><th>Value</th><th>Follow-up</th><th>Customer</th><th></th></tr></thead><tbody>
       {rows.map(l=><tr key={l.id}>
         <td><b>{l.name}</b><div className="muted">{l.contact||"—"}</div></td>
-        <td>{l.industry||"—"}</td><td>{l.source||"—"}</td>
+        <td>{l.service||"—"}</td><td>{l.industry||"—"}</td><td>{l.source||"—"}</td>
         <td><select value={l.displayStage} onChange={e=>{update("leads",l.id,{stage:e.target.value});setTick(x=>x+1)}}>{config.pipeline.map(s=><option key={s}>{s}</option>)}</select></td>
         <td>₹{Number(l.value||0).toLocaleString("en-IN")}</td>
         <td>{l.nextFollowUp||"—"}</td>
@@ -55,6 +57,7 @@ export default function Leads() {
       <label>Contact Person<input value={form.contact||""} onChange={e=>setForm({...form,contact:e.target.value})}/></label>
       <label>Phone<input value={form.phone||""} onChange={e=>setForm({...form,phone:e.target.value})}/></label>
       <label>Email<input type="email" value={form.email||""} onChange={e=>setForm({...form,email:e.target.value})}/></label>
+      <label>Service<select value={form.service||""} onChange={e=>setForm({...form,service:e.target.value})}>{serviceOptions.map(x=><option key={x}>{x}</option>)}</select></label>
       <label>Industry<input value={form.industry||""} onChange={e=>setForm({...form,industry:e.target.value})}/></label>
       <label>Source<select value={form.source} onChange={e=>setForm({...form,source:e.target.value})}>{config.sources.map(s=><option key={s}>{s}</option>)}</select></label>
       <label>Stage<select value={canonicalStage(unit,form.stage)} onChange={e=>setForm({...form,stage:e.target.value})}>{config.pipeline.map(s=><option key={s}>{s}</option>)}</select></label>
