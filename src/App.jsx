@@ -12,6 +12,7 @@ import Settings from "./pages/Settings";
 import GenericList from "./pages/GenericList";
 import Trials from "./pages/Trials";
 import Renewals from "./pages/Renewals";
+import CommercialsBilling from "./pages/CommercialsBilling";
 
 export default function App() {
   return (
@@ -24,6 +25,7 @@ export default function App() {
           <Route path="/campaigns" element={<GenericList type="campaigns"/>}/>
           <Route path="/automation" element={<Automation/>}/>
           <Route path="/customers" element={<Customers/>}/>
+          <Route path="/commercials" element={<CommercialsBilling/>}/>
           <Route path="/revenue" element={<Revenue/>}/>
           <Route path="/reports" element={<Reports/>}/>
           <Route path="/settings" element={<Settings/>}/>
