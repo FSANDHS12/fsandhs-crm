@@ -1,0 +1,1 @@
+export default function KpiCard({ label, value, note, icon: Icon }) { return (<div className="card kpi-card"><div><div className="kpi-label">{label}</div><div className="kpi-value">{value}</div>{note && <div className="kpi-note">{note}</div>}</div>{Icon && <div className="kpi-icon"><Icon size={22}/></div>}</div>); }
