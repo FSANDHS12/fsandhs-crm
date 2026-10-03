@@ -1,7 +1,7 @@
 import {
   LayoutDashboard, Users, KanbanSquare, Briefcase, UserSearch,
   Megaphone, Workflow, IndianRupee, BarChart3, Settings,
-  Clock3, RefreshCcw
+  Clock3, RefreshCcw, WalletCards
 } from "lucide-react";
 import { PIPELINES } from "./lib/lifecycle";
 
@@ -37,11 +37,11 @@ export const BUSINESS_UNITS = {
     nav: [
       ["/","Dashboard",LayoutDashboard],
       ["/leads","Leads",Users],
-      ["/pipeline","Pipeline",KanbanSquare],
+      ["/pipeline","Lifecycle",KanbanSquare],
       ["/campaigns","Campaigns",Megaphone],
-      ["/automation","Automation",Workflow],
-      ["/trials","Trials / Demos",Clock3],
+      ["/commercials","Commercials & Billing",WalletCards],
       ["/customers","Customers",Users],
+      ["/automation","Automation",Workflow],
       ["/revenue","Revenue",IndianRupee],
       ["/renewals","Renewals",RefreshCcw],
       ["/reports","Reports",BarChart3],
