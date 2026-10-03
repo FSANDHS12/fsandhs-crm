@@ -1,0 +1,7 @@
+import { useBusinessUnit } from "../components/BusinessUnitContext";
+import PageHead from "../components/PageHead";
+export default function Settings(){
+  const {config}=useBusinessUnit();
+  const rows=[["Company Profile","Brand, GST, business details and timezone"],["Users & Roles","Super Admin, managers, recruiters and sales access"],["Lead Sources","WhatsApp, Instagram, LinkedIn, Google, Email and referrals"],["Pipeline","Configure stages for the selected business unit"],["Automation Rules","Follow-ups, reminders, payment and renewal triggers"],["WhatsApp Business API","Official WhatsApp integration"],["Email Integration","Brevo / SMTP / transactional email"],["Meta Lead Ads","Lead form capture from Facebook and Instagram"],["Google Ads","Campaign attribution and source tracking"],["Payments","Razorpay payment and subscription settings"],["Templates","WhatsApp, Email, Demo, Proposal and Follow-up templates"],["Import / Export","Excel bulk import and export"]];
+  return <><PageHead title={`${config.label} Settings`} desc="Configure the shared platform and projection-specific workflow."/><div className="grid3">{rows.map(([title,desc])=><div className="card report-card" key={title}><h3>{title}</h3><p>{desc}</p><button className="btn ghost">Configure</button></div>)}</div></>;
+}
