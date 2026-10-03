@@ -1,5 +1,6 @@
 export const MEDIA_SERVICES = [
   "Technology & Digital Solutions",
+  "CRM",
   "Digital Marketing & Lead Generation",
   "Branding & Creative Design",
   "Video & AI Content",
@@ -16,8 +17,31 @@ export const RECRUITMENT_SERVICES = [
   "RPO / Recruitment Support"
 ];
 
+export const INDUSTRIES = [
+  "Healthcare / Clinic",
+  "Dental",
+  "Beauty / Aesthetics",
+  "Photography / Studio",
+  "Retail",
+  "Opticals",
+  "Jewellery",
+  "Restaurant / Food",
+  "Gym / Fitness",
+  "Interior / Construction",
+  "Real Estate",
+  "Education",
+  "IT / Software",
+  "Professional Services",
+  "Manufacturing",
+  "Other"
+];
+
 export function servicesFor(unit){
   return unit==="media" ? MEDIA_SERVICES : RECRUITMENT_SERVICES;
+}
+
+export function industriesFor(){
+  return INDUSTRIES;
 }
 
 export function serviceFor(record) {
