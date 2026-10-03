@@ -6,7 +6,7 @@ import { useBusinessUnit } from "../components/BusinessUnitContext";
 import PageHead from "../components/PageHead";
 import Modal from "../components/Modal";
 import { canonicalStage } from "../lib/lifecycle";
-import { servicesFor } from "../lib/services";
+import { servicesFor, industriesFor } from "../lib/services";
 
 export default function Leads() {
   const {unit,config} = useBusinessUnit();
@@ -17,6 +17,7 @@ export default function Leads() {
   const [open,setOpen] = useState(false);
   const [editing,setEditing] = useState(null);
   const serviceOptions=servicesFor(unit);
+  const industryOptions=industriesFor();
   const blank = {name:"",contact:"",phone:"",email:"",industry:"",service:serviceOptions[0]||"",source:config.sources[0],stage:config.pipeline[0],value:0,nextFollowUp:""};
   const [form,setForm] = useState(blank);
   const leads = list("leads",unit);
@@ -58,7 +59,7 @@ export default function Leads() {
       <label>Phone<input value={form.phone||""} onChange={e=>setForm({...form,phone:e.target.value})}/></label>
       <label>Email<input type="email" value={form.email||""} onChange={e=>setForm({...form,email:e.target.value})}/></label>
       <label>Service<select value={form.service||""} onChange={e=>setForm({...form,service:e.target.value})}>{serviceOptions.map(x=><option key={x}>{x}</option>)}</select></label>
-      <label>Industry<input value={form.industry||""} onChange={e=>setForm({...form,industry:e.target.value})}/></label>
+      <label>Industry<select value={form.industry||""} onChange={e=>setForm({...form,industry:e.target.value})}><option value="">Select industry</option>{industryOptions.map(x=><option key={x}>{x}</option>)}</select></label>
       <label>Source<select value={form.source} onChange={e=>setForm({...form,source:e.target.value})}>{config.sources.map(s=><option key={s}>{s}</option>)}</select></label>
       <label>Stage<select value={canonicalStage(unit,form.stage)} onChange={e=>setForm({...form,stage:e.target.value})}>{config.pipeline.map(s=><option key={s}>{s}</option>)}</select></label>
       <label>Potential Value<input type="number" value={form.value} onChange={e=>setForm({...form,value:e.target.value})}/></label>
